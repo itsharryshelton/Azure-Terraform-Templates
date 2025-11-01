@@ -1,0 +1,57 @@
+To use this template you will need to edit the following entries to tailor it to how you want it:
+
+1. (Line 16) This is the local user of the VM
+variable "admin_username" {
+  type        = string
+  description = "Administrator username for the Windows VM."
+  default     = "azureadmin"
+}
+
+2. (Line 22) This is the local password of the VM
+variable "admin_password" {
+  type        = string
+  description = "Administrator password for the Windows VM. Must be complex."
+  sensitive   = true
+  default     = "Password1234!"
+}
+
+3. (Line 29) This is the VM Name
+variable "vm_name" {
+  type        = string
+  description = "The name of the virtual machine."
+  default     = "xx-vm-app-001"
+}
+
+4. (Line 35) This is the VM Size
+variable "vm_size" {
+  type        = string
+  description = "What size VM"
+  default     = "Standard_B2ms"
+}
+
+5. (Line 112 & 152) This is the Inbound & Outbound rule for any RMM, remove if not needed, adjust IP/Ports for what you need
+  security_rule {
+    name                       = "Allow_RMM_Inbound"
+    priority                   = 120
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefixes    = ["1.2.3.4", "4.3.2.1"]
+    destination_address_prefix = "*"
+    description                = "Allow inbound RMM Connections."
+  }
+
+    security_rule {
+    name                         = "Allow_RMM_Oubound"
+    priority                     = 210
+    direction                    = "Outbound"
+    access                       = "Allow"
+    protocol                     = "*"
+    source_port_range            = "*"
+    destination_port_range       = "*"
+    source_address_prefix        = "*"
+    destination_address_prefixes = ["1.2.3.4", "1.2.3.4"]
+    description                  = "Allow RMM outbound."
+  }
